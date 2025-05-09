@@ -3,13 +3,15 @@ import pandas as pd
 import os
 from PIL import Image
 import base64
+import requests
 
 st.set_page_config(page_title="Cultiva Crop Kits Planner", layout="wide")
 
 # Set background image and style
-def set_bg_image(image_path):
-    with open(image_path, "rb") as img_file:
-        encoded_string = base64.b64encode(img_file.read()).decode()
+def set_bg_image(image_url):
+    response = requests.get(image_url)
+    if response.status_code == 200:
+        encoded_string = base64.b64encode(response.content).decode()
     st.markdown(
         f"""
         <style>
@@ -119,9 +121,7 @@ set_bg_image("https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schem
 
 # Logo
 logo_path = "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Cultiva_Tec_logo_with_BG__1_-removebg-preview.png"
-if os.path.exists(logo_path):
-    logo = Image.open(logo_path)
-    st.image(logo, width=800)
+st.image(logo_path, width=400)
 
 # Title with updated size using HTML and inline styling
 st.markdown(
@@ -181,25 +181,19 @@ products = {
 
 # Display sections
 total_value = 0
-
 for section, items in products.items():
-    st.markdown(f"""
-    <div class="section-title">📦 {section}</div>
-    """, unsafe_allow_html=True)
-
-    image_path = category_images.get(section)
-    # Display category image once per section
-    if os.path.exists(image_path):
-        img = Image.open(image_path)
+    st.markdown(f"""<div class="section-title">📦 {section}</div>""", unsafe_allow_html=True)
+    image_url = category_images.get(section)    # Display category image once per section
+    if image_url:
         # Convert the image to base64 to embed it in HTML
-        with open(image_path, "rb") as img_file:
-            encoded_string = base64.b64encode(img_file.read()).decode()
-
-        # Create the HTML to align the image to the right
-        image_html = f'<div class="image-container"><img src="data:image/png;base64,{encoded_string}" width="400"/></div>'
-        st.markdown(image_html, unsafe_allow_html=True)
-    else:
-        st.warning(f"⚠️ Image for {section} not found.")
+        response = requests.get(image_url)
+        if response.status_code == 200:
+            encoded_string = base64.b64encode(response.content).decode()
+            # Embed the image in HTML
+            image_html = f'<div class="image-container"><img src="data:image/png;base64,{encoded_string}" width="400"/></div>'
+            st.markdown(image_html, unsafe_allow_html=True)
+        else:
+            st.warning(f"⚠️ Image for {section} not found.")
 
     section_total = 0
 
