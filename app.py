@@ -115,10 +115,10 @@ def set_bg_image(image_path):
     )
 
 # Background image
-set_bg_image("C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/ab1ec1cd8b1399e75da0c1a2067a6445.jpg")
+set_bg_image("https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/ab1ec1cd8b1399e75da0c1a2067a6445.jpg")
 
 # Logo
-logo_path = "C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/Cultiva_Tec_logo_with_BG__1_-removebg-preview.png"
+logo_path = "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Cultiva_Tec_logo_with_BG__1_-removebg-preview.png"
 if os.path.exists(logo_path):
     logo = Image.open(logo_path)
     st.image(logo, width=800)
@@ -150,10 +150,10 @@ st.markdown(
 
 
 category_images = {
-    "EXOME": "C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/Exome-Photoroom.png",
-    "CULTIVATEC": "C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/CultivaTec Planner-1-Photoroom.png",
-    "GROWTH PROMOTOR": "C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/Growth promoter-Photoroom.png",
-    "ADDITIONAL": "C:/Users/LENOVO/Desktop/Cultivatec Work/Schemes/Scheme app/Additional-Photoroom (1).png"
+    "EXOME": "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Exome-Photoroom.png",
+    "CULTIVATEC": "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/CultivaTec%20Planner-1-Photoroom.png",
+    "GROWTH PROMOTOR": "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Growth%20promoter-Photoroom.png",
+    "ADDITIONAL": "https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Additional-Photoroom%20(1).png"
 }
 
 # Product data
