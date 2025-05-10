@@ -78,6 +78,8 @@ for category, products in data.items():
             "Value": product["Value"]
         })
 df = pd.DataFrame(rows)
+# Clean category names if they contain unwanted symbols
+df['Category'] = df['Category'].apply(lambda x: x.replace("ðŸŒ±", "🌱").replace("ðŸƒ", "🍃").replace("ðŸŒ¿", "🌿").replace("ðŸ§°", "🧰"))
 
 # --- Quantity Inputs and Subtotals ---
 st.subheader("📦 Select Product Quantities")
@@ -91,21 +93,19 @@ for category in df["Category"].unique():
     section_total = 0
 
     for i in category_df.index:
-        col1, col2, col3, col4, col5 = st.columns([2, 3, 2, 2, 2])
+        col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 2, 2])
         with col1:
             st.markdown(df.at[i, "Product"])
         with col2:
-            st.markdown(f"SKU: {df.at[i, 'SKU']}")
+            st.markdown(df.at[i, 'SKU'])
         with col3:
-            st.markdown("Qty:")
-            df.at[i, "Qty"] = st.number_input("Qty", min_value=0, value=df["Qty"][i], step=1, label_visibility="visible", key=f"Qty_{i}")
+            df.at[i, "Qty"] = st.number_input("Qty", min_value=0, value=df.at[i, "Qty"],step=1,key=f"Qty_{i}")
         with col4:
             product_total = df.at[i, "Value"] * df.at[i, "Qty"]
             st.markdown(
                 f"<div style='background-color:#f5f5dc; padding: 5px 10px; border-radius: 5px;'> ₹{product_total:.2f} </div>",
                 unsafe_allow_html=True
             )
-
         section_total += product_total
 
     # Show subtotal after category
@@ -133,7 +133,7 @@ for category in df["Category"].unique():
                 "Category": category,
                 "Product": row["Product"],
                 "Quantity": row["Qty"],
-                "Total": f"₹{row['Total']:.2f}"
+                "Total": f"Rs. {row['Total']:.2f}"
             })
     if subtotal > 0:
         summary_rows.append({
@@ -141,9 +141,9 @@ for category in df["Category"].unique():
             "Customer Code": customer_code,
             "Date": today_date,
             "Category": "",
-            "Product": f"Subtotal ({category})",
+            "Product": f"Subtotal",
             "Quantity": "",
-            "Total": f"₹{subtotal:.2f}"
+            "Total": f"Rs. {subtotal:.2f}"
         })
 
 # Display table and download
@@ -151,7 +151,7 @@ if summary_rows:
     summary_df = pd.DataFrame(summary_rows)
     st.table(summary_df[["Category", "Product", "Quantity", "Total"]])
 
-    st.markdown(f"### 🧳 Grand Total: ₹{total_value:.2f}", unsafe_allow_html=True)
+    st.markdown(f"### 🧳 Grand Total: Rs. {total_value:.2f}", unsafe_allow_html=True)
 
     csv = summary_df.to_csv(index=False, encoding='utf-8-sig')
     st.download_button(
