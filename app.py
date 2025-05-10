@@ -98,7 +98,7 @@ for category in df["Category"].unique():
             st.markdown(f"SKU: {df.at[i, 'SKU']}")
         with col3:
             df.at[i, "Qty"] = st.number_input(
-                f"Qty_{i}", min_value=0, value=int(df.at[i, "Qty"]), step=1, label_visibility="collapsed"
+                f"Qty_{i}", min_value=0, value=int(df.at[i, "Qty"]), step=1
             )
         with col4:
             product_total = df.at[i, "Value"] * df.at[i, "Qty"]
@@ -154,7 +154,7 @@ if summary_rows:
 
     st.markdown(f"### 🧳 Grand Total: ₹{total_value:.2f}", unsafe_allow_html=True)
 
-    csv = summary_df.to_csv(index=False)
+    csv = summary_df.to_csv(index=False, encoding='utf-8-sig')
     st.download_button(
         label="📥 Download Summary as CSV",
         data=csv,
