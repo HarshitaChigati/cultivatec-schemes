@@ -97,9 +97,8 @@ for category in df["Category"].unique():
         with col2:
             st.markdown(f"SKU: {df.at[i, 'SKU']}")
         with col3:
-            df.at[i, "Qty"] = st.number_input(
-                f"Qty_{i}", min_value=0, value=int(df.at[i, "Qty"]), step=1
-            )
+            st.markdown("Qty:")
+            df.at[i, "Qty"] = st.number_input("Qty", min_value=0, value=df["Qty"][i], step=1, label_visibility="visible")
         with col4:
             product_total = df.at[i, "Value"] * df.at[i, "Qty"]
             st.markdown(
