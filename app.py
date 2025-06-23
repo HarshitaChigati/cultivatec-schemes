@@ -20,6 +20,16 @@ st.markdown(
 st.markdown("<h2 style='color:#1B5E20;font-size:22px;'>🌾 Nutrition Navaratnalu Scheme Planner</h2>", unsafe_allow_html=True)
 st.write("Plan Smart. Earn Big. Unlock Rewards.")
 
+st.markdown(
+    """
+    <div style='text-align: center; margin-top: -10px;'>
+        <img src='https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/49227985b502547253ed8c285346624a17b30a67/NN.png?raw=true' 
+             width='500' 
+             style='box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); border-radius: 10px;'>
+    </div>
+    """,
+    unsafe_allow_html=True
+)\
 # Dealer info
 st.header("👤 Dealer Information")
 col1, col2, col3 = st.columns(3)
