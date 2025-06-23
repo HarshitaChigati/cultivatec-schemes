@@ -10,7 +10,7 @@ total_rhody_grams = 0
 
 # Logo and title
 st.image("https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Cultiva_Tec_logo_with_BG__1_-removebg-preview.png", width=400)
-st.markdown("<h2 style='color:#1B5E20;font-size:32px;'>🌾 Nutrition Navaratnalu Scheme Planner</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='color:#1B5E20;font-size:22px;'>🌾 Nutrition Navaratnalu Scheme Planner</h2>", unsafe_allow_html=True)
 st.write("Plan Smart. Earn Big. Unlock Rewards.")
 
 # Dealer info
