@@ -17,8 +17,12 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown("<h2 style='color:#1B5E20;font-size:22px;'>🌾 Nutrition Navaratnalu Scheme Planner</h2>", unsafe_allow_html=True)
-st.write("Plan Smart. Earn Big. Unlock Rewards.")
+st.markdown("""
+<div style='text-align: center;'>
+    <h2 style='color:#1B5E20;font-size:22px;'>🌾 Nutrition Navaratnalu Scheme Planner</h2>
+    <p style='font-size:16px; color:#444;'>Plan Smart. Earn Big. Unlock Rewards.</p>
+</div>
+""", unsafe_allow_html=True)
 
 st.markdown(
     """
