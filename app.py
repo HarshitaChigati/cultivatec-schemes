@@ -5,12 +5,12 @@ import pandas as pd
 # Constants
 CASE_VOLUME_LITERS = 12
 SCHEME_TARGET_SALES = 300000
-SCHEME_REWARD_AMOUNT = 88000
+SCHEME_REWARD_AMOUNT = 90000
 total_rhody_grams = 0
 
 # Logo and title
 st.image("https://raw.githubusercontent.com/HarshitaChigati/cultivatec-schemes/63527d8b3150a783a707d822e072e74ccf49dc7d/Cultiva_Tec_logo_with_BG__1_-removebg-preview.png", width=400)
-st.markdown("<h1 style='color:#1B5E20;'>🌾 Nutrition Navaratnalu Scheme Planner</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='color:#1B5E20;font-size:32px;'>🌾 Nutrition Navaratnalu Scheme Planner</h1>", unsafe_allow_html=True)
 st.write("Plan your product orders with cases and units. Totals in ₹, liters, and grams.")
 
 # Dealer info
@@ -22,6 +22,158 @@ with col2:
     customer_code = st.text_input("Customer Code")
 with col3:
     order_date = st.date_input("Date", value=date.today())
+
+# Product Info Helper
+product_info_data = {
+    "Nemarid": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌱 Soil Application", "Details": "Nemarid (500 ml) + Farm Yard Manure"},
+            {"Stage": "🌿 Vegetative Period", "Details": "Nemarid + 1 Bag Urea"},
+        ],
+        "Dosage": ["🧪 500 ml / acre", "🧪 0.5 ml–2 ml / liter"],
+        "Benefits": [
+            "🌾 100% Germination",
+            "🌿 More branches",
+            "🐛 Kills root grubs & nematodes",
+            "🛡️ Pest Resistance"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Tetrapower": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌿 Vegetative Period", "Details": "Tetrapower + 1 Bag Urea"},
+            {"Stage": "🌼 Reproductive Stage", "Details": "Foliar spray or Fertigation"},
+        ],
+        "Dosage": ["🧪 250 ml / acre", "🧪 1 ml–2 ml / liter"],
+        "Benefits": [
+            "🛡️ Resistance to abiotic stress",
+            "🌸 Reduces buds & flower drop",
+            "🌱 More buds per branch",
+            "🌼 Enhances flowering & bud formation"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "K-Bio": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌿 Vegetative Period", "Details": "K-Bio + 1 Bag Urea"},
+            {"Stage": "🌼 Flowering Stage", "Details": "Spray with pesticide or water soluble fertilizer"},
+            {"Stage": "🍎 Seed & Fruit Development", "Details": "Spray with pesticide or water soluble fertilizer"},
+        ],
+        "Dosage": ["🧪 250 ml / acre", "🧪 0.5 ml–2 ml / liter"],
+        "Benefits": [
+            "🟢 Uniform maturity & ripening",
+            "🍎 Improved size of produce",
+            "✅ Spotless harvest",
+            "🌾 Full grain/pod development"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Calratna": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌱 Shoot Development", "Details": "Foliar spray"},
+            {"Stage": "🌼 Bud Formation & Flowering", "Details": "Spray with pesticide or water soluble fertilizer"},
+            {"Stage": "🍎 Seed & Fruit Development", "Details": "Spray with pesticide or water soluble fertilizer"},
+        ],
+        "Dosage": ["🧪 250 ml / acre", "🧪 0.5 ml–2 ml / liter"],
+        "Benefits": [
+            "🍎 Reduced fruit abnormalities",
+            "⚖️ Corrects root zone pH",
+            "🥇 Better fruit setting, Stromger cell Walls",
+            "💪 Improves fruit quality & size"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Rhody Potash": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🚜 Tilling Stage", "Details": "Foliar spray or Fertigation"},
+            {"Stage": "🌼 Pre-Flowering Stage", "Details": "Foliar spray or Fertigation"},
+            {"Stage": "🍎 Seed & Fruit Development", "Details": "Foliar spray or Fertigation"},
+        ],
+        "Dosage": ["🧪 150 gms / acre", "🧪 1.5 g / liter"],
+        "Benefits": [
+            "🍎 Enhanced fruit size & quality",
+            "📈 Improved yield",
+            "🛡️ Resistance to abiotic stress",
+            "🌼 Faster Flowering & Uniform blooming"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Black Diamond": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌱 Shoot Development", "Details": "Soil Drenching (500 ml)"},
+            {"Stage": "🌼 Bud Formation & Flowering", "Details": "Foliar spray"},
+            {"Stage": "🍎 Fruit Development", "Details": "Foliar spray"},
+        ],
+        "Dosage": ["🧪 500 ml / acre", "🧪 3 ml–5 ml / liter"],
+        "Benefits": [
+            "🌿 Rapid canopy establishment with dark green leaves",
+            "🌱 Quick root emergence",
+            "🍎 Uniform fruit development with enhanced colour & firmness",
+            "❌ Significant reduction in early flower & fruit drop"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Gly-Zinc": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌱 Shoot Development", "Details": "Foliar spray or Fertigation"},
+            {"Stage": "🌿 Vegetative Stage", "Details": "Foliar spray or Fertigation"},
+            {"Stage": "🌼 Flowering", "Details": "Foliar spray or Fertigation"},
+        ],
+        "Dosage": ["🧪 250 ml / acre", "🧪 1 ml / liter"],
+        "Benefits": [
+            "🌿 Greener plants - no Zn deficiency symptoms",
+            "🌼 Better Flower Hold & Reduced  Flower Drop",
+            "🌱 Early Shoot and Branch Development",
+            "🌸 Increased Bud Initiation & Uniform Flowering"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Harvester": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌸 Early Reproductive Stage", "Details": "Foliar spray"},
+            {"Stage": "🌼 Flowering", "Details": "Foliar spray"},
+        ],
+        "Dosage": ["🧪 2 ml / liter"],
+        "Benefits": [
+            "🌸 More flowers -> Reduced flower drop",
+            "🧬 Better pollination → More fruits formation",
+            "🚀 Faster Crop Growth & Maturity",
+            "📈 Increased yield & quality"
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    },
+
+    "Gainup": {
+        "Overview": ["📏 No. of Acres Suggested:", "👨‍🌾 No. of Farmers Required:"],
+        "Application": [
+            {"Stage": "🌿 Vegetative Stage", "Details": "Basal Application"},
+            {"Stage": "🌼 Reproductive Stage", "Details": "Foliar spray"},
+        ],
+        "Dosage": ["🧪 500 ml / acre", "🧪 1–2 ml / liter"],
+        "Benefits": [
+            "🍎 Improved fruit/seed size, color, and surface shine",
+            "🌿 Increased branching & vegetative growth",
+            "🌱 Higher Root initiation",
+            "✅ Reduced deformities, black spots, & poor texture."
+        ],
+        "Crops": ["🌶️ Chilli", "👕 Cotton", "🌾 Paddy"]
+    }
+}
 
 # Product List
 products = [
@@ -56,8 +208,12 @@ total_liters = 0
 total_profit = 0
 
 for product in products:
-    st.markdown(f"### {product['Name']}")
-    st.image(product["Image"], width=150)
+    st.markdown(f"""
+    <div style='text-align: center; margin-bottom: 15px;'>
+        <h2 style='color: #33691E;'>{product['Name']}</h3>
+        <img src="{product['Image']}" width="140">
+    </div>
+""", unsafe_allow_html=True)
 
     subtotal_value = 0
     subtotal_volume = 0
@@ -71,25 +227,23 @@ for product in products:
                 liters = qty * CASE_VOLUME_LITERS
                 value = qty * sku["Dealer Price"]
                 profit = qty * sku["Profit"]
-                
                 subtotal_value += value
                 subtotal_volume += liters
                 subtotal_profit += profit
 
     elif product["Type"] == "unit":
-        label = f"{product['Size']} {product['Unit']} packs" if "Size" in product else f"{product['Unit']} packs"
+        label = f"{product['Size']} {product['Unit']} packs"
         qty = st.number_input(label, min_value=0, step=1, key=product['Name'])
-
         value = qty * product["Unit Value"]
         profit = qty * product["Unit Profit"]
-        
+
         if product["Unit"] == "ml":
             volume = qty * product["Size"] / 1000  # ml to liters
         else:
-            volume = qty * product["Size"] if "Size" in product else qty  # grams or count
+            volume = qty * product["Size"]
 
         if product["Name"] == "Rhody Potash":
-            total_rhody_grams += volume  # volume = qty × 150 gms
+            total_rhody_grams += volume
 
         subtotal_value += value
         subtotal_volume += volume
@@ -106,6 +260,35 @@ for product in products:
       </p>
     </div>
     """, unsafe_allow_html=True)
+
+    # ✅ Insert the following block here:
+    if product["Name"] in product_info_data:
+        with st.expander("📘 Product Information"):
+            info = product_info_data[product["Name"]]
+
+            if "Overview" in info:
+                st.markdown("<b>📋 Overview:</b>", unsafe_allow_html=True)
+                for line in info["Overview"]:
+                    st.markdown(f"<p style='margin:0;'>{line}</p>", unsafe_allow_html=True)
+
+            if "Application" in info:
+                st.markdown("<br><b>🧪 Application Methodology:</b>", unsafe_allow_html=True)
+                for stage in info["Application"]:
+                    st.markdown(f"<p style='margin:0;'><b>{stage['Stage']}</b>: {stage['Details']}</p>", unsafe_allow_html=True)
+
+            if "Dosage" in info:
+                st.markdown("<br><b>🧴 Dosage:</b>", unsafe_allow_html=True)
+                for dose in info["Dosage"]:
+                    st.markdown(f"<p style='margin:0;'>{dose}</p>", unsafe_allow_html=True)
+
+            if "Benefits" in info:
+                st.markdown("<br><b>✨ Benefits:</b>", unsafe_allow_html=True)
+                for benefit in info["Benefits"]:
+                    st.markdown(f"<p style='margin:0;'>{benefit}</p>", unsafe_allow_html=True)
+
+            if "Crops" in info:
+                st.markdown("<br><b>🌾 Suitable Crops:</b>", unsafe_allow_html=True)
+                st.markdown(f"<p style='margin:0;'>{' | '.join(info['Crops'])}</p>", unsafe_allow_html=True)
 
     if subtotal_value > 0:
         order_list.append({
@@ -127,25 +310,47 @@ if total_rhody_grams > 0:
 st.markdown(f"# 🧾 Grand Total: ₹ {total_value:,.0f} | 🧪 {volume_display} | 📈 ₹ {total_profit:,.0f} Margin")
 
 # Scheme Progress
-scheme_progress = total_value / SCHEME_TARGET_SALES * 100
-st.markdown(f"### 🎯 Scheme Eligibility Progress: {scheme_progress:.1f}% of ₹3,00,000 Target")
+# Progress calculation
+scheme_progress_percent = min((total_value / SCHEME_TARGET_SALES) * 100, 100)
+
+# Colored progress bar function
+def color_progress_bar(percent):
+    if percent < 50:
+        color = "#e53935"  # 🔴 Red
+    elif percent < 90:
+        color = "#fb8c00"  # 🟠 Orange
+    else:
+        color = "#43a047"  # 🟢 Green
+
+    st.markdown(f"""
+    <div style="margin-top: 10px; margin-bottom: 6px; font-weight: bold; color: #1B5E20;">
+        🎯 Scheme Eligibility Progress: {percent:.1f}% of ₹3,00,000 Target
+    </div>
+    <div style="height: 24px; background-color: #eee; border-radius: 12px; overflow: hidden;">
+      <div style="width: {percent}%; height: 100%; background-color: {color}; border-radius: 12px;"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Display progress
+color_progress_bar(scheme_progress_percent)
+
 
 # Scheme Rewards
 if total_value >= SCHEME_TARGET_SALES:
-    st.success("🎉 Congratulations! You're eligible for the full scheme rewards worth ₹88,000.")
+    st.success("🎉 Congratulations! You're eligible for the full scheme rewards worth ₹90,000.")
     with st.expander("💎 Scheme Reward Breakdown"):
         st.markdown("""
         | ✨ Reward Item | Value | Includes |
         |---------------|--------|----------|
         | ✈️ **Foreign Trip** | ₹50,000 | Flight tickets, Hotel |
-        | 🪙 **Gold Coin** | ₹9,000 | 1 Gold Bar |
+        | 🪙 **Gold Coin** | ₹9,000 | 1 Gold Coin |
         | 💸 **Advance Payment Discount** | ₹21,000 | Instant Cashback |
         | **Total** | **₹90,000** | 🎁 |
         """, unsafe_allow_html=True)
     total_profit_combined = total_profit + SCHEME_REWARD_AMOUNT
 else:
-    st.info("ℹ️ To unlock ₹88,000 in rewards, reach ₹3,00,000 in total purchases.")
-    total_profit_combined = total_profit
+    st.info("ℹ️ To unlock ₹90,000 in rewards, reach ₹3,00,000 in total purchases.")
+    total_profit_combined = total_profit + SCHEME_REWARD_AMOUNT
 
 st.markdown(f"## 💼 Total Profit (including scheme): ₹ {total_profit_combined:,.0f}")
 
